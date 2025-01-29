@@ -11,18 +11,24 @@ public class Main {
     public static JFrame window;
     public static GamePanel gp;
 
+    public static GamePanel getGamePanel() {
+        if (gp == null) {
+            gp = new GamePanel();
+        }
+        return gp;
+    }
+
     public static void main(String[] args) {
 
         // Window
+        gp = getGamePanel();
         window = new JFrame(); // Assign to the class-level variable
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(true);
         window.setTitle("The Road Back Home");
 
         setIcon(); // Call the static setIcon method
-
-        // Uses GamePanel.java
-        gp = new GamePanel();
+        
         window.add(gp);
 
         // Packs Window

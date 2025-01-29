@@ -84,7 +84,8 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setUpGame() {
         aSetter.setObject();
-        sound.setFile(0, "res/sound/Background Music.wav");
+        sound.setFile(0, "res/sound/title_music.wav");
+        sound.setFile(1, "res/sound/Background Music.wav");
         playMusic(0);
         aSetter.setNPC();
         gameState = titleState;
@@ -105,7 +106,6 @@ public class GamePanel extends JPanel implements Runnable{
         long timer = 0;
         int drawCount = 0;
         tileM.loadMap("res/maps/world_map.txt");
-
 
         while (gameThread != null) {
             currentTime = System.nanoTime();
@@ -147,7 +147,10 @@ public class GamePanel extends JPanel implements Runnable{
         } else if (gameState == pauseState) {
             // Nothing as the game is paused
         } else if (gameState == titleState) {
-             // Stop music during the title screen
+            // Stop music during the title screen
+            if (!sound.isPlaying(1)) {
+                playMusic(1);
+            }
         }
         if(gameState == playState) {
             player.update();
