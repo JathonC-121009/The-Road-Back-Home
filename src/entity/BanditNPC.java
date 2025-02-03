@@ -1,12 +1,12 @@
 package entity;
 
-import main.Main;
 import main.GamePanel;
+import main.Main;
 
 public class BanditNPC extends Entity {
     
-    public BanditNPC(GamePanel gp) {
-        super(Main.gp);
+    public BanditNPC() {
+        super();
         getImage();
         setDialogue();
     }
@@ -30,8 +30,8 @@ public class BanditNPC extends Entity {
     private void teleportPlayer() {
         // Set new coordinates for the player
         // Replace these values with your desired teleport location
-        int teleportX = 126 * Main.gp.tileSize; // Example: teleport to tile (10, 5)
-        int teleportY = 45 * Main.gp.tileSize;
+        int teleportX = 126 * GamePanel.tileSize; // Example: teleport to tile (10, 5)
+        int teleportY = 45 * GamePanel.tileSize;
 
         Main.gp.player.worldX = teleportX;
         Main.gp.player.worldY = teleportY;

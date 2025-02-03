@@ -1,12 +1,11 @@
 package entity;
 
 import main.Main;
-import main.GamePanel;
 
 public class BikerNPC extends Entity{
     
-    public BikerNPC(GamePanel gp) {
-        super(Main.gp);
+    public BikerNPC() {
+        super();
         
         getImage();
         setDialogue();
@@ -32,7 +31,7 @@ public class BikerNPC extends Entity{
     public void speak() {
 
         super.speak();
-        Main.gp.gameState = Main.gp.tradeState;
+        Main.gp.gameState = GameState.tradeState;
         Main.gp.ui.npc = this;
     }
 

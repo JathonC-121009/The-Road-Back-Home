@@ -1,15 +1,13 @@
 package object;
 
-import main.GamePanel;
 import entity.Entity;
-import main.Main;
 
 public class OBJ_Steering extends Entity {
     public boolean pickup = false;
 
-    public OBJ_Steering(GamePanel gp) {
+    public OBJ_Steering() {
 
-        super(Main.gp);
+        super();
         
         name = "Steering Wheel";
         pickup = false;

@@ -1,16 +1,14 @@
 package object;
 
 import entity.Entity;
-import main.GamePanel;
-import main.Main;
 
 public class OBJ_Oil extends Entity{
 
     public boolean pickup = true;
     
-    public OBJ_Oil(GamePanel gp) {
+    public OBJ_Oil() {
 
-        super(Main.gp);
+        super();
 
         name = "Oil";
         pickup = true;

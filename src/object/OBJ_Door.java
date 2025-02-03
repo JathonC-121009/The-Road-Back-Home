@@ -1,16 +1,14 @@
 package object;
 
 import entity.Entity;
-import main.GamePanel;
-import main.Main;
 
 public class OBJ_Door extends Entity{
 
     public boolean pickup = false;
 
-    public OBJ_Door(GamePanel gp) {
+    public OBJ_Door() {
 
-        super(Main.gp);
+        super();
 
         name = "Door";
         pickup = false;

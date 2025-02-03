@@ -2,7 +2,6 @@ package object;
 
 import entity.Entity;
 import entity.Player;
-import main.GamePanel;
 import main.EventManager;
 import main.Main;
 
@@ -10,8 +9,8 @@ public class OBJ_BrokenCar extends Entity {
     public boolean isFunctional = false;
     EventManager eventManager;
 
-    public OBJ_BrokenCar(GamePanel gp, EventManager eventManager) {
-        super(Main.gp);
+    public OBJ_BrokenCar(EventManager eventManager) {
+        super();
         this.eventManager = eventManager; // Assign the passed reference
         name = "Broken Car";
         down1 = setup("res/objects/broken_car_obj.png");

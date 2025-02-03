@@ -1,13 +1,12 @@
 package entity;
 
-import main.GamePanel;
 import object.OBJ_Steering;
 import main.Main;
 
 public class FarmerNPC extends Entity{
     
-    public FarmerNPC(GamePanel gp) {
-        super(Main.gp);
+    public FarmerNPC() {
+        super();
         
         getImage();
         setDialogue();
@@ -29,11 +28,11 @@ public class FarmerNPC extends Entity{
     public void speak() {
 
         super.speak();
-        Main.gp.gameState = Main.gp.tradeState;
+        Main.gp.gameState = GameState.tradeState;
         Main.gp.ui.npc = this;
     }
 
     public void setItems() {
-        inventory.add(new OBJ_Steering(Main.gp));
+        inventory.add(new OBJ_Steering());
     }
 }

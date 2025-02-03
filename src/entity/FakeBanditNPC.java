@@ -1,12 +1,9 @@
 package entity;
 
-import main.GamePanel;
-import main.Main;
-
 public class FakeBanditNPC extends Entity{
     
-    public FakeBanditNPC(GamePanel gp) {
-        super(Main.gp);
+    public FakeBanditNPC() {
+        super();
         getImage();
         setDialogue();
     }

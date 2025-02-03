@@ -1,14 +1,12 @@
 package entity;
 
 import main.Main;
-import main.GamePanel;
 import object.OBJ_Wheel;
-import object.OBJ_Window;
 
 public class BakerNPC extends Entity{
     
-    public BakerNPC(GamePanel gp) {
-        super(Main.gp);
+    public BakerNPC() {
+        super();
         
         getImage();
         setDialogue();
@@ -34,11 +32,11 @@ public class BakerNPC extends Entity{
     public void speak() {
 
         super.speak();
-        Main.gp.gameState = Main.gp.tradeState;
+        Main.gp.gameState = GameState.tradeState;
         Main.gp.ui.npc = this;
     }
 
     public void setItems() {
-        inventory.add(new OBJ_Wheel(Main.gp));
+        inventory.add(new OBJ_Wheel());
     }
 }

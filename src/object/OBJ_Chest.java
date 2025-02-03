@@ -1,16 +1,14 @@
 package object;
 
 import entity.Entity;
-import main.GamePanel;
-import main.Main;
 
 public class OBJ_Chest extends Entity{
 
     public boolean pickup = false;
 
-    public OBJ_Chest(GamePanel gp) {
+    public OBJ_Chest() {
 
-        super(Main.gp);
+        super();
         
         name = "Chest";
         pickup = false;

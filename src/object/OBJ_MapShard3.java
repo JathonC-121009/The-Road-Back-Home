@@ -1,7 +1,6 @@
 package object;
 
 import entity.Entity;
-import main.GamePanel;
 import tile.TileManager;
 import tile.Tile;
 import java.io.IOException;
@@ -10,6 +9,7 @@ import java.io.File;
 import java.awt.Graphics2D;
 import javax.imageio.ImageIO;
 import main.Main;
+import main.GamePanel;
 
 public class OBJ_MapShard3 extends Entity {
     public boolean pickup = true; 
@@ -17,19 +17,19 @@ public class OBJ_MapShard3 extends Entity {
     TileManager tileM;
     public Tile[] tile;
 
-    public OBJ_MapShard3(GamePanel gp) {
-        super(Main.gp);
+    public OBJ_MapShard3() {
+        super();
         
-        tileM = new TileManager(Main.gp);
+        tileM = new TileManager();
         
-        name = "Map Shard";
+        name = "Map Shard 3";
         pickup = true;
         down1 = setup("res/objects/mapShard_obj.png");
         description = name + ": \nUse this to\nfind the right\npath to the gold";
         stackable = true;
         
         // Initialize the arrays
-        mapTileNum = new int[Main.gp.maxWorldCol][Main.gp.maxWorldRow];
+        mapTileNum = new int[GamePanel.maxWorldCol][GamePanel.maxWorldRow];
         tile = new Tile[20]; // Adjust size based on your total tiles
         
         getTileImage();
@@ -86,7 +86,7 @@ public class OBJ_MapShard3 extends Entity {
                 return;
             }
             tile[index].image = ImageIO.read(file);
-            tile[index].image = uTool.scaledImage(tile[index].image, Main.gp.tileSize, Main.gp.tileSize);
+            tile[index].image = uTool.scaledImage(tile[index].image, GamePanel.tileSize, GamePanel.tileSize);
             tile[index].collision = collision;
             
         } catch(IOException e) {
@@ -99,12 +99,12 @@ public class OBJ_MapShard3 extends Entity {
         int worldCol = 0;
         int worldRow = 0;
         
-        while (worldCol < Main.gp.maxWorldCol && worldRow < Main.gp.maxWorldRow) {
+        while (worldCol < GamePanel.maxWorldCol && worldRow < GamePanel.maxWorldRow) {
             int tileNum = mapTileNum[worldCol][worldRow];
             
             if (tile[tileNum] != null) {  // Check if tile exists
-                int worldX = worldCol * Main.gp.tileSize;
-                int worldY = worldRow * Main.gp.tileSize;
+                int worldX = worldCol * GamePanel.tileSize;
+                int worldY = worldRow * GamePanel.tileSize;
                 int screenX = worldX - Main.gp.player.worldX + Main.gp.player.screenX;
                 int screenY = worldY - Main.gp.player.worldY + Main.gp.player.screenY;
 
@@ -115,7 +115,7 @@ public class OBJ_MapShard3 extends Entity {
             }
             
             worldCol++;
-            if (worldCol == Main.gp.maxWorldCol) {
+            if (worldCol == GamePanel.maxWorldCol) {
                 worldCol = 0;
                 worldRow++;
             }
@@ -123,9 +123,9 @@ public class OBJ_MapShard3 extends Entity {
     }
     
     private boolean isOnScreen(int worldX, int worldY) {
-        return worldX + Main.gp.tileSize > Main.gp.player.worldX - Main.gp.player.screenX &&
-               worldX - Main.gp.tileSize < Main.gp.player.worldX + Main.gp.player.screenX &&
-               worldY + Main.gp.tileSize > Main.gp.player.worldY - Main.gp.player.screenY &&
-               worldY - Main.gp.tileSize < Main.gp.player.worldY + Main.gp.player.screenY;
+        return worldX + GamePanel.tileSize > Main.gp.player.worldX - Main.gp.player.screenX &&
+               worldX - GamePanel.tileSize < Main.gp.player.worldX + Main.gp.player.screenX &&
+               worldY + GamePanel.tileSize > Main.gp.player.worldY - Main.gp.player.screenY &&
+               worldY - GamePanel.tileSize < Main.gp.player.worldY + Main.gp.player.screenY;
     }
 }

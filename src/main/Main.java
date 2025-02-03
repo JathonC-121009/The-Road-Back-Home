@@ -6,22 +6,20 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
+
 public class Main {
 
     public static JFrame window;
     public static GamePanel gp;
 
-    public static GamePanel getGamePanel() {
-        if (gp == null) {
-            gp = new GamePanel();
-        }
-        return gp;
+    public static void InitGamePanel() {
+        gp = new GamePanel();
     }
 
     public static void main(String[] args) {
 
         // Window
-        gp = getGamePanel();
+        InitGamePanel();
         window = new JFrame(); // Assign to the class-level variable
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(true);

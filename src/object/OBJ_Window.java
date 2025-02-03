@@ -1,15 +1,13 @@
 package object;
 
-import main.GamePanel;
 import entity.Entity;
-import main.Main;
 
 public class OBJ_Window extends Entity {
     public boolean pickup = false;
 
-    public OBJ_Window(GamePanel gp) {
+    public OBJ_Window() {
 
-        super(Main.gp);
+        super();
         
         name = "Window";
         pickup = false;

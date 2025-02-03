@@ -1,13 +1,12 @@
 package entity;
 
-import main.GamePanel;
 import object.OBJ_Window;
 import main.Main;
 
 public class MechanicNPC extends Entity{
     
-    public MechanicNPC(GamePanel gp) {
-        super(Main.gp);
+    public MechanicNPC() {
+        super();
         
         getImage();
         setItems();
@@ -32,11 +31,11 @@ public class MechanicNPC extends Entity{
 
     public void speak() {
         super.speak();
-        Main.gp.gameState = Main.gp.tradeState;
+        Main.gp.gameState = GameState.tradeState;
         Main.gp.ui.npc = this;
     }
 
     public void setItems() {
-        inventory.add(new OBJ_Window(Main.gp));
+        inventory.add(new OBJ_Window());
     }
 }

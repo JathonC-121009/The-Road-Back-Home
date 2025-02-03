@@ -1,12 +1,9 @@
 package entity;
 
-import main.GamePanel;
-import main.Main;
-
 public class WandererNPC2 extends Entity{
     
-    public WandererNPC2(GamePanel gp) {
-        super(Main.gp);
+    public WandererNPC2() {
+        super();
         
         getImage();
         setDialogue();

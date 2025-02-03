@@ -1,16 +1,14 @@
 package object;
 
 import entity.Entity;
-import main.GamePanel;
-import main.Main;
 
 public class OBJ_Pump extends Entity{
 
     public boolean pickup = true;
     
-    public OBJ_Pump(GamePanel gp) {
+    public OBJ_Pump() {
 
-        super(Main.gp);
+        super();
 
         name = "Pump";
         pickup = true;

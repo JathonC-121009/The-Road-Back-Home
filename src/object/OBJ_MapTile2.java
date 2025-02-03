@@ -1,16 +1,15 @@
+
 package object;
 
 import entity.Entity;
-import main.GamePanel;
-import main.Main;
 
 public class OBJ_MapTile2 extends Entity{
 
     public boolean pickup = true;
     
-    public OBJ_MapTile2(GamePanel gp) {
+    public OBJ_MapTile2() {
 
-        super(Main.gp);
+        super();
 
         name = "Map Tile 2";
         pickup = true;

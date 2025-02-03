@@ -8,11 +8,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import main.GamePanel;
 
 import javax.imageio.ImageIO;
 
-import main.GamePanel;
 import main.UtilityTool;
 
 public class Entity {
@@ -48,19 +47,18 @@ public class Entity {
     public int gratitudeCounter;
     public static int numCarParts;
     public static int likeabilityCounter;
-    public GamePanel gp;
+    // public GamePanel gp;
 
     public String description = "";
 
-    public Entity(GamePanel gp) {
-        this.gp = gp;
+    public Entity() {
     }
 
     public void speak() {
         if(dialogues[dialogueIndex] == null) {
             dialogueIndex = 0;
         }
-        gp.ui.currentDialogue = dialogues[dialogueIndex];
+        Main.gp.ui.currentDialogue = dialogues[dialogueIndex];
         dialogueIndex++;
     }
 
@@ -73,29 +71,29 @@ public class Entity {
     }
 
     public void draw(Graphics2D g2) {
-        int screenX = worldX - gp.player.worldX + gp.player.screenX;
-        int screenY = worldY - gp.player.worldY + gp.player.screenY;
+        int screenX = worldX - Main.gp.player.worldX + Main.gp.player.screenX;
+        int screenY = worldY - Main.gp.player.worldY + Main.gp.player.screenY;
     
         // Check if the entity is an NPC (or any other specific type you want to exclude from the red rectangle)
         if (this instanceof BoyNPC) {
             // For NPCs, always draw them even if the image is null
             if (down1 != null) {
-                g2.drawImage(down1, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(down1, screenX, screenY, GamePanel.tileSize, GamePanel.tileSize, null);
             } else {
                 // If NPC image is null, draw a placeholder (e.g., a blue square)
                 g2.setColor(Color.BLUE);
-                g2.fillRect(screenX, screenY, gp.tileSize, gp.tileSize);
+                g2.fillRect(screenX, screenY, GamePanel.tileSize, GamePanel.tileSize);
             }
             return;  // Skip the red rectangle and other logic for NPCs
         }
     
         // For all other entities (non-NPCs), check if down1 is null and draw the red rectangle
         if (down1 != null) {
-            g2.drawImage(down1, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(down1, screenX, screenY, GamePanel.tileSize, GamePanel.tileSize, null);
         } else {
             // If down1 is null, draw a red rectangle (except for NPCs)
             g2.setColor(Color.RED);
-            g2.fillRect(screenX, screenY, gp.tileSize, gp.tileSize);
+            g2.fillRect(screenX, screenY, GamePanel.tileSize, GamePanel.tileSize);
         }
     }
     
@@ -112,10 +110,10 @@ public class Entity {
             } else {
                 // System.out.println("Image loaded successfully: " + imageName); // Debug if image is loaded
             }
-            image = uTool.scaledImage(image, gp.tileSize, gp.tileSize);
-            if (gp == null) {
-            throw new NullPointerException("GamePanel (gp) is null in OBJ_BrokenCar constructor!");
-            }
+            image = uTool.scaledImage(image, GamePanel.tileSize, GamePanel.tileSize);
+            // if (Main.gp == null) {
+            //     throw new NullPointerException("GamePanel (gp) is null in OBJ_BrokenCar constructor!");
+            // }
 
         } catch (IOException e) {
             // System.out.println("Error loading image: " + imageName); // Debug any loading errors

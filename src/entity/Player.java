@@ -4,7 +4,6 @@ import main.Main;
 import main.GamePanel;
 import main.KeyHandler;
 import object.*;
-import main.Sound;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -19,16 +18,16 @@ public class Player extends Entity {
     public int numCanes = 0;
     public int numMapShards = 0;
     public static int numCarParts = 0; // Counter for car parts collected
-    private boolean isInteracting = false;
-    private GamePanel gp;
+    public boolean isInteracting = false;
+    private static int metNpcIndex = 999;
 
-    public Player(GamePanel gp, KeyHandler keyH) {
-        super(gp);
-        this.gp  = gp;
+    public Player(KeyHandler keyH) {
+        // super(gp);
+        // this.gp  = gp;
         this.keyH = keyH;
 
-        screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
-        screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
+        screenX = GamePanel.screenWidth / 2 - (GamePanel.tileSize / 2);
+        screenY = GamePanel.screenHeight / 2 - (GamePanel.tileSize / 2);
 
         solidArea.x = 12;
         solidArea.y = 18;
@@ -43,8 +42,8 @@ public class Player extends Entity {
     }
 
     public void setDefaultValues() {
-        worldX = gp.tileSize * 93;
-        worldY = gp.tileSize * 2;
+        worldX = GamePanel.tileSize * 93;
+        worldY = GamePanel.tileSize * 2;
         speed = 5;
         direction = "down";
 
@@ -77,12 +76,12 @@ public class Player extends Entity {
             else if (keyH.leftPressed) direction = "left";
             else if (keyH.rightPressed) direction = "right";
 
-            gp.cChecker.checkTile(this);
-            int objIndex = gp.cChecker.checkObject(this, true);
+            Main.gp.cChecker.checkTile(this);
+            int objIndex = Main.gp.cChecker.checkObject(this, true);
             pickUpObject(objIndex);
 
-            int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
-            interactNPC(npcIndex);
+            metNpcIndex = Main.gp.cChecker.checkEntity(this, Main.gp.npc);
+            interactNPC();
 
             if (direction.equals("up") && !collisionOn) worldY -= speed;
             if (direction.equals("down") && !collisionOn) worldY += speed;
@@ -98,22 +97,23 @@ public class Player extends Entity {
     }
 
 
-    public void interactNPC(int i) {
-        if (i != 999) {
-            if (gp.keyH.enterPressed) {
+    public void interactNPC() {
+        if (metNpcIndex != 999) {
+            if (Main.gp.keyH.enterPressed) {
                 System.out.println("You are hitting boy_npc");
-                gp.gameState = gp.dialogueState; // Correct game state
-                gp.npc[i].speak();
+                Main.gp.gameState = GameState.dialogueState; // Correct game state
+                Main.gp.npc[metNpcIndex].speak();
                 likeabilityCounter++;
             }
         }
-        gp.keyH.enterPressed = false;
+        metNpcIndex = 999;
+        // Main.gp.keyH.enterPressed = false;
     }
 
     public void pickUpObject(int i) {
         if (i != 999) {
-            Entity obj = gp.obj[i];
-            //gp.playMusic(1);
+            Entity obj = Main.gp.obj[i];
+            //Main.gp.playMusic(1);
 
             // Check for specific objects
             if (obj instanceof OBJ_BrokenCar) {
@@ -121,71 +121,71 @@ public class Player extends Entity {
             } else if (obj instanceof OBJ_Wheel || obj instanceof OBJ_Window || obj instanceof OBJ_Steering) {
                 numCarParts++;
                 System.out.println("Car part collected! Total parts: " + numCarParts);
-                gp.ui.showMessage("You found a car part!");
-                gp.obj[i] = null;
+                Main.gp.ui.showMessage("You found a car part!");
+                Main.gp.obj[i] = null;
             } else if (obj instanceof OBJ_Oil) {
                 numOil++;
                 System.out.println("You got oil! Total: " + numOil);
-                gp.ui.showMessage("You got oil!");
-                gp.obj[i] = null;
-                gp.player.inventory.add(new OBJ_Oil(gp));
+                Main.gp.ui.showMessage("You got oil!");
+                Main.gp.obj[i] = null;
+                Main.gp.player.inventory.add(new OBJ_Oil());
             } else if (obj instanceof OBJ_Bale) {
                 numBales++;
                 System.out.println("You got a haybale! Total: " + numBales);
-                gp.ui.showMessage("You got a haybale!");
-                gp.obj[i] = null;
-                gp.player.inventory.add(new OBJ_Bale(gp));
+                Main.gp.ui.showMessage("You got a haybale!");
+                Main.gp.obj[i] = null;
+                Main.gp.player.inventory.add(new OBJ_Bale());
             } else if (obj instanceof OBJ_Sugarcane) {
                 numCanes++;
                 System.out.println("You got sugarcane! Total: " + numCanes);
-                gp.ui.showMessage("You got sugarcane!");
-                gp.obj[i] = null;
-                gp.player.inventory.add(new OBJ_Sugarcane(gp));
+                Main.gp.ui.showMessage("You got sugarcane!");
+                Main.gp.obj[i] = null;
+                Main.gp.player.inventory.add(new OBJ_Sugarcane());
             } else if (obj instanceof OBJ_MapShard) {
                 numMapShards++;
-                System.out.println("You got a HAWK TUAH! Total: " + numMapShards);
-                gp.obj[i] = null;
-                gp.player.inventory.add(new OBJ_MapShard(gp));
+                System.out.println("You got a Map! Total: " + numMapShards);
+                Main.gp.obj[i] = null;
+                Main.gp.player.inventory.add(new OBJ_MapShard());
             } else if (obj instanceof OBJ_MapShard2) {
                 numMapShards++;
-                System.out.println("You got a HAWK TUAH! Total: " + numMapShards);
-                gp.obj[i] = null;
-                gp.player.inventory.add(new OBJ_MapShard2(gp));
+                System.out.println("You got a Map! Total: " + numMapShards);
+                Main.gp.obj[i] = null;
+                Main.gp.player.inventory.add(new OBJ_MapShard2());
             } else if (obj instanceof OBJ_MapShard3) {
                 numMapShards++;
-                System.out.println("You got a HAWK TUAH! Total: " + numMapShards);
-                gp.obj[i] = null;
-                gp.player.inventory.add(new OBJ_MapShard3(gp));
+                System.out.println("You got a Map! Total: " + numMapShards);
+                Main.gp.obj[i] = null;
+                Main.gp.player.inventory.add(new OBJ_MapShard3());
             } else if (obj instanceof OBJ_MapShard4) {
                 numMapShards++;
-                System.out.println("You got a HAWK TUAH! Total: " + numMapShards);
-                gp.obj[i] = null;
-                gp.player.inventory.add(new OBJ_MapShard4(gp));
+                System.out.println("You got a Map! Total: " + numMapShards);
+                Main.gp.obj[i] = null;
+                Main.gp.player.inventory.add(new OBJ_MapShard4());
             } else if (obj instanceof OBJ_MapShard5) {
                 numMapShards++;
-                System.out.println("You got a HAWK TUAH! Total: " + numMapShards);
-                gp.obj[i] = null;
-                gp.player.inventory.add(new OBJ_MapShard5(gp));
+                System.out.println("You got a Map! Total: " + numMapShards);
+                Main.gp.obj[i] = null;
+                Main.gp.player.inventory.add(new OBJ_MapShard5());
             } else if (obj instanceof OBJ_MapShard6) {
                 numMapShards++;
-                System.out.println("You got a HAWK TUAH! Total: " + numMapShards);
-                gp.obj[i] = null;
-                gp.player.inventory.add(new OBJ_MapShard6(gp));
+                System.out.println("You got a Map! Total: " + numMapShards);
+                Main.gp.obj[i] = null;
+                Main.gp.player.inventory.add(new OBJ_MapShard6());
             } else if (obj instanceof OBJ_MapShard7) {
                 numMapShards++;
-                System.out.println("You got a HAWK TUAH! Total: " + numMapShards);
-                gp.obj[i] = null;
-                gp.player.inventory.add(new OBJ_MapShard7(gp));
+                System.out.println("You got a Map! Total: " + numMapShards);
+                Main.gp.obj[i] = null;
+                Main.gp.player.inventory.add(new OBJ_MapShard7());
             } else if (obj instanceof OBJ_MapShard8) {
                 numMapShards++;
-                System.out.println("You got a HAWK TUAH! Total: " + numMapShards);
-                gp.obj[i] = null;
-                gp.player.inventory.add(new OBJ_MapShard8(gp));
+                System.out.println("You got a Map! Total: " + numMapShards);
+                Main.gp.obj[i] = null;
+                Main.gp.player.inventory.add(new OBJ_MapShard8());
             } else if (obj instanceof OBJ_MapShard9) {
                 numMapShards++;
-                System.out.println("You got a HAWK TUAH! Total: " + numMapShards);
-                gp.obj[i] = null;
-                gp.player.inventory.add(new OBJ_MapShard9(gp));
+                System.out.println("You got a Map! Total: " + numMapShards);
+                Main.gp.obj[i] = null;
+                Main.gp.player.inventory.add(new OBJ_MapShard9());
             }
         }
     }
@@ -199,7 +199,7 @@ public class Player extends Entity {
             car.isFunctional = true;
 
             System.out.println("You assembled the car! It’s functional now.");
-            gp.ui.showMessage("Your car is repaired!");
+            Main.gp.ui.showMessage("Your car is repaired!");
 
             new Thread(() -> {
                 try {
@@ -207,15 +207,15 @@ public class Player extends Entity {
                     int fadeLevel = 0; // Start fade level
                     while (fadeLevel < 255) {
                         fadeLevel += 5;
-                        gp.fadeAlpha = fadeLevel; // Update fade effect
-                        gp.repaint(); // Trigger repaint for fade effect
+                        Main.gp.fadeAlpha = fadeLevel; // Update fade effect
+                        Main.gp.repaint(); // Trigger repaint for fade effect
                         Thread.sleep(50); // Delay between fade steps
                     }
 
                     // Once fade is complete, show credits
-                    gp.fadeAlpha = 0; // Reset fade for credits
-                    gp.repaint();
-                    gp.showCredits();
+                    Main.gp.fadeAlpha = 0; // Reset fade for credits
+                    Main.gp.repaint();
+                    Main.gp.showCredits();
 
                     isInteracting = false; // Allow movement after credits
                 } catch (InterruptedException e) {
@@ -224,7 +224,7 @@ public class Player extends Entity {
             }).start();
         } else {
             System.out.println("Not enough car parts.");
-            gp.ui.showMessage("You need more parts to repair the car.");
+            Main.gp.ui.showMessage("You need more parts to repair the car.");
             isInteracting = false;
         }
     }
@@ -234,13 +234,13 @@ public class Player extends Entity {
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
 
-        int screenX = worldX - gp.player.worldX + gp.player.screenX;
-        int screenY = worldY - gp.player.worldY + gp.player.screenY;
+        int screenX = worldX - Main.gp.player.worldX + Main.gp.player.screenX;
+        int screenY = worldY - Main.gp.player.worldY + Main.gp.player.screenY;
 
-        if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
-                worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
-                worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
-                worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
+        if (worldX + GamePanel.tileSize > Main.gp.player.worldX - Main.gp.player.screenX &&
+                worldX - GamePanel.tileSize < Main.gp.player.worldX + Main.gp.player.screenX &&
+                worldY + GamePanel.tileSize > Main.gp.player.worldY - Main.gp.player.screenY &&
+                worldY - GamePanel.tileSize < Main.gp.player.worldY + Main.gp.player.screenY) {
             // Draw player sprite based on direction
             switch (direction) {
                 case "up" -> image = (spriteNum == 1) ? up1 : up2;

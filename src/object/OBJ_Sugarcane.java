@@ -1,16 +1,14 @@
 package object;
 
 import entity.Entity;
-import main.GamePanel;
-import main.Main;
 
 public class OBJ_Sugarcane extends Entity{
 
     public boolean pickup = true;
     
-    public OBJ_Sugarcane(GamePanel gp) {
+    public OBJ_Sugarcane() {
 
-        super(Main.gp);
+        super();
 
         name = "Sugarcane";
         pickup = true;

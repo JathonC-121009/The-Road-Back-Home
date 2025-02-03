@@ -1,15 +1,13 @@
 package object;
 
-import main.GamePanel;
 import entity.Entity;
-import main.Main;
 
 public class OBJ_Wheel extends Entity {
     public boolean pickup = false;
 
-    public OBJ_Wheel(GamePanel gp) {
+    public OBJ_Wheel() {
 
-        super(Main.gp);
+        super();
         
         name = "Wheel";
         pickup = false;

@@ -1,6 +1,5 @@
 package tile;
 
-import main.GamePanel;
 import main.UtilityTool;
 
 import java.io.BufferedReader;
@@ -9,6 +8,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import main.GamePanel;
 import main.Main;
 
 import javax.imageio.ImageIO;
@@ -18,12 +19,11 @@ public class TileManager {
     
     public Tile[] tile;
     public int mapTileNum[][];
-    GamePanel gp;
+    // GamePanel gp;
     
-    public TileManager(GamePanel gp) {
-        this.gp = gp;
+    public TileManager() {
         tile = new Tile[30];
-        mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
+        mapTileNum = new int[GamePanel.maxWorldCol][GamePanel.maxWorldRow];
         
         getTileImage();
         // Removed loadMap from constructor
@@ -77,7 +77,7 @@ public class TileManager {
                 return;
             }
             tile[index].image = ImageIO.read(file);
-            tile[index].image = uTool.scaledImage(tile[index].image, gp.tileSize, gp.tileSize);
+            tile[index].image = uTool.scaledImage(tile[index].image, GamePanel.tileSize, GamePanel.tileSize);
             tile[index].collision = collision;
         } catch(IOException e) {
             System.out.println("Failed to load tile: " + imageName);
@@ -92,12 +92,12 @@ public class TileManager {
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
             int row = 0;
-            while(row < gp.maxWorldRow) {
+            while(row < GamePanel.maxWorldRow) {
                 String line = br.readLine();
                 if(line == null) break; // End of file
 
                 String[] numbers = line.split(" ");
-                for(int col = 0; col < gp.maxWorldCol; col++) {
+                for(int col = 0; col < GamePanel.maxWorldCol; col++) {
                     if(col < numbers.length) {
                         int num = Integer.parseInt(numbers[col]);
                         mapTileNum[col][row] = num;
@@ -118,26 +118,26 @@ public class TileManager {
         int worldCol = 0;
         int worldRow = 0;
         
-        while(worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
+        while(worldCol < GamePanel.maxWorldCol && worldRow < GamePanel.maxWorldRow) {
 
             int tileNum = mapTileNum[worldCol][worldRow];
 
-            int worldX = worldCol * gp.tileSize;
-            int worldY = worldRow * gp.tileSize;
-            int screenX = worldX - gp.player.worldX + gp.player.screenX;
-            int screenY = worldY - gp.player.worldY + gp.player.screenY;
+            int worldX = worldCol * GamePanel.tileSize;
+            int worldY = worldRow * GamePanel.tileSize;
+            int screenX = worldX - Main.gp.player.worldX + Main.gp.player.screenX;
+            int screenY = worldY - Main.gp.player.worldY + Main.gp.player.screenY;
             
-            if(worldX + gp.tileSize > gp.player.worldX - gp.player.screenX && 
-                worldX - gp.tileSize < gp.player.worldX + gp.player.screenX && 
-                worldY + gp.tileSize > gp.player.worldY - gp.player.screenY && 
-                worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
+            if(worldX + GamePanel.tileSize > Main.gp.player.worldX - Main.gp.player.screenX && 
+                worldX - GamePanel.tileSize < Main.gp.player.worldX + Main.gp.player.screenX && 
+                worldY + GamePanel.tileSize > Main.gp.player.worldY - Main.gp.player.screenY && 
+                worldY - GamePanel.tileSize < Main.gp.player.worldY + Main.gp.player.screenY) {
                 if(tileNum >= 0 && tileNum < tile.length && tile[tileNum] != null) {
                     g2.drawImage(tile[tileNum].image, screenX, screenY, null);
                 }
             }
             worldCol++;
 
-            if(worldCol == gp.maxWorldCol) {
+            if(worldCol == GamePanel.maxWorldCol) {
                 worldCol = 0;
                 worldRow++;
             }

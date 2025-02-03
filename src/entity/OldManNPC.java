@@ -1,13 +1,8 @@
 package entity;
 
-import main.GamePanel;
-import main.Main;
-
 public class OldManNPC extends Entity{
     
-    public OldManNPC(GamePanel gp) {
-        super(Main.gp);
-        
+    public OldManNPC() {
         getImage();
         setDialogue();
     }
