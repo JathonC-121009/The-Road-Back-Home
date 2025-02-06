@@ -18,7 +18,7 @@ public class Sound {
         try {
             File audioFile = new File(filePath);
             if (!audioFile.exists()) {
-                System.out.println("Sound file not found: " + filePath);
+                System.out.println("Soundd file not found: " + filePath);
                 return;
             }
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
