@@ -267,12 +267,12 @@ public class GamePanel extends JPanel implements Runnable{
     public void startFadeToBlack() {
         new Thread(() -> {
             try {
-                fadeLevel = 0; // Reset fade level at the start
+                fadeLevel = 0;
                 while (fadeLevel < 255) {
-                    fadeLevel += 5; // Increment fade level (adjust for speed)
-                    if (fadeLevel > 255) fadeLevel = 255; // Clamp to maximum
-                    repaint(); // Trigger the screen to redraw
-                    Thread.sleep(200); // Delay between fade steps
+                    fadeLevel += 5;
+                    if (fadeLevel > 255) fadeLevel = 255;
+                    repaint(); 
+                    Thread.sleep(200); 
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -282,12 +282,12 @@ public class GamePanel extends JPanel implements Runnable{
 
 
     public void showCredits() {
-        gameState = GameState.creditsState; // Set game state to credits
-        fadeAlpha = 255; // Start fully opaque
+        gameState = GameState.creditsState;
+        fadeAlpha = 255;
 
         new Thread(() -> {
             while (fadeAlpha > 0) {
-                fadeAlpha -= 5; // Gradually reduce opacity
+                fadeAlpha -= 5;
                 repaint();
                 try {
                     Thread.sleep(5);

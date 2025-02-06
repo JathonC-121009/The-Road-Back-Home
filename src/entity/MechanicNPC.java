@@ -31,7 +31,7 @@ public class MechanicNPC extends Entity{
 
     public void speak() {
         super.speak();
-        Main.gp.gameState = GameState.tradeState;
+        Main.gp.gameState = GameState.preTradeState;
         Main.gp.ui.npc = this;
     }
 

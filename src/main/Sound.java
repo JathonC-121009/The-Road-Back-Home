@@ -24,16 +24,38 @@ public class Sound {
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
             soundClip[index] = AudioSystem.getClip();
             soundClip[index].open(audioStream);
-            fc = (FloatControl) soundClip[index].getControl(FloatControl.Type.MASTER_GAIN); // Correctly assign fc from the loaded clip
-            checkVolume();
+    
+            // Set the volume control for this specific clip
+            FloatControl fc = (FloatControl) soundClip[index].getControl(FloatControl.Type.MASTER_GAIN);
+            setVolumeForClip(fc); // Use a helper method to adjust the volume
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public void setVolumeForClip(FloatControl fc) {
+        if (fc != null) {
+            switch (volumeScale) {
+                case 0: fc.setValue(-80f); break;
+                case 1: fc.setValue(-20f); break;
+                case 2: fc.setValue(-12f); break;
+                case 3: fc.setValue(-5f); break;
+                case 4: fc.setValue(1f); break;
+                case 5: fc.setValue(6f); break;
+            }
+        }
+    }
+
     public void setVolumeScale(int scale) {
         volumeScale = Math.max(0, Math.min(scale, 5)); // Ensure volumeScale is between 0 and 5
-        checkVolume();
+        // Apply volume changes to all clips
+        for (Clip clip : soundClip) {
+            if (clip != null) {
+                FloatControl fc = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                setVolumeForClip(fc); // Adjust volume for each clip
+            }
+        }
     }
 
     public void play(int i) {

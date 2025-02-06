@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import entity.GameState;
+import object.OBJ_Bale;
 import tile.Tile;
 import tile.TileManager;
 
@@ -58,6 +59,17 @@ public class KeyHandler implements KeyListener {
             tradeState(code);
         } else if (Main.gp.gameState == GameState.creditsState) {
             creditsState(code);
+        } else if (Main.gp.gameState == GameState.preTradeState) {
+            preTradeState(code);
+        }
+    }
+
+    private void preTradeState(int code) {
+        if (code == KeyEvent.VK_ENTER) {
+            Main.gp.gameState = GameState.tradeState;
+            Main.gp.ui.substate = 1;
+        } else if (code == KeyEvent.VK_ESCAPE) {
+            Main.gp.gameState = GameState.playState;
         }
     }
 
@@ -211,14 +223,18 @@ public class KeyHandler implements KeyListener {
     public void tradeState(int code) {
         long currentTime = System.currentTimeMillis();
         
+        if (code == KeyEvent.VK_ESCAPE) {
+            Main.gp.gameState = GameState.playState;
+        }
+
         // Only proceed if enough time has passed since the last action
         if (currentTime - lastActionTime < COOLDOWN_TIME) {
             return;  // Don't process input if we're still in cooldown
         }
     
         if (code == KeyEvent.VK_ENTER) {
-            if (!enterPressed) {  
-                enterPressed = true;
+            if (!Main.gp.keyH.enterPressed) {  
+                Main.gp.keyH.enterPressed = true;
                 lastActionTime = currentTime;  // Reset cooldown timer
             }
         }
@@ -226,14 +242,20 @@ public class KeyHandler implements KeyListener {
         // NPC interaction and other conditions
         if (Main.gp.ui.substate == 0) {
             if (code == KeyEvent.VK_W) {
+                System.out.println("W Pressed");
                 Main.gp.ui.commandNum--;
+                System.out.println("commandNum: " + Main.gp.ui.commandNum);
                 if (Main.gp.ui.commandNum < 0) {
                     Main.gp.ui.commandNum = 1;
+                    System.out.println("commandNum2: " + Main.gp.ui.commandNum);
                 }
             }
             if (code == KeyEvent.VK_S) {
+                System.out.println("S Pressed");
                 Main.gp.ui.commandNum++;
+                System.out.println("commandNum: " + Main.gp.ui.commandNum);
                 if (Main.gp.ui.commandNum > 1) {
+                    System.out.println("commandNum2: " + Main.gp.ui.commandNum);
                     Main.gp.ui.commandNum = 0;
                 }
             }

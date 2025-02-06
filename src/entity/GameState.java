@@ -11,7 +11,8 @@ public enum GameState {
     creditsState(7),
     introductionState(8),
     mapState(9),
-    thumbState(10);
+    thumbState(10),
+    preTradeState(11);
 
 
     private final int value;

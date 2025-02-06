@@ -126,6 +126,9 @@ public class UI {
         if (Main.gp.gameState == GameState.tradeState) {
             drawTradeScreen();
         }
+        if (Main.gp.gameState == GameState.preTradeState) {
+            trade_select();
+        }
     }
 
     public void drawThumbMap() {
@@ -555,8 +558,8 @@ public class UI {
         if(commandNum == 0) {
             g2.drawString(">", x-24, y);
             if(Main.gp.keyH.enterPressed == true) {
-                substate = 1;  // Proceed to trade_buy
-                Main.gp.keyH.enterPressed = false;  // Reset to avoid fast updating
+                substate = 1;
+                Main.gp.keyH.enterPressed = false;
             }
         }
         y += GamePanel.tileSize;
@@ -565,7 +568,7 @@ public class UI {
             g2.drawString(">", x-24, y);
             if(Main.gp.keyH.enterPressed == true) {
                 Main.gp.gameState = GameState.playState;
-                Main.gp.keyH.enterPressed = false;  // Reset after leaving
+                Main.gp.keyH.enterPressed = false;  
             }
         }
     }

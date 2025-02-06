@@ -32,7 +32,8 @@ public class BakerNPC extends Entity{
     public void speak() {
 
         super.speak();
-        Main.gp.gameState = GameState.tradeState;
+        Main.gp.gameState = GameState.preTradeState;
+        // Main.gp.ui.trade_select();
         Main.gp.ui.npc = this;
     }
 
